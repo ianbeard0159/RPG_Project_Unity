@@ -1,2 +1,2 @@
 # RPG_Project_Unity
-The UNity version of my RPG_Project
+The Unity version of my RPG_Project
