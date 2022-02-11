@@ -1,0 +1,56 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags:
+  - CharacterUnit
+  - EnemyUnit
+  - ActionMenu
+  - Info_UnitStats
+  - Info_UnitName
+  - Info_UnitBonuses
+  - Info
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - Units
+  - Water
+  - UI
+  - Units 2
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Default
+    uniqueID: 0
+    locked: 0
+  - name: Units
+    uniqueID: 421551213
+    locked: 0
+  - name: UI
+    uniqueID: 2943019619
+    locked: 0
