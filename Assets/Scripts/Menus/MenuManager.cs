@@ -191,6 +191,8 @@ public class MenuManager : MonoBehaviour
         // Add each action from the input action list
         int posIndex = 0;
         foreach (Action action in actionList) {
+            Condition actionCondition = action.GetComponent<Condition>();
+            if (actionCondition.CheckConditions(currentUnit)) {
             // Create an instance of the action button within the action sub menu
             GameObject btn = Instantiate(myMenuItem, actionSubMenu.transform);
             btn.name = action.gameObject.name;
@@ -203,6 +205,8 @@ public class MenuManager : MonoBehaviour
             });
             btn.transform.localPosition = new Vector2(xPos, (yDisplace*posIndex + yPos));
             posIndex += 1;
+
+            }
         }
         // Add back button to the list of menu items
         AddBackBtn(actionSubMenu, actionMenu, posIndex);

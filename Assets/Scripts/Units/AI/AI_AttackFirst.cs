@@ -7,7 +7,8 @@ public class AI_AttackFirst : EnemyAI
     public override float Act(EnemyUnit owner) {
         float timeInterval = 0;
         foreach (AttackAction attack in owner.attackList) {
-            if (owner.AP_current > attack.AP_cost) {
+            Condition attackCondition = attack.GetComponent<Condition>();
+            if (owner.AP_current > attack.AP_cost && attackCondition.CheckConditions(owner)) {
                 timeInterval += enemyAttackPriority.UseAttack(attack);
                 break;
             }
@@ -15,7 +16,8 @@ public class AI_AttackFirst : EnemyAI
 
         enemySupportPriority.CheckDuration();
         foreach (SupportAction support in owner.supportList) {
-            if (owner.AP_current > support.AP_cost) {
+            Condition supportCondition = support.GetComponent<Condition>();
+            if (owner.AP_current > support.AP_cost && supportCondition.CheckConditions(owner)) {
                 timeInterval += enemySupportPriority.UseSupport(support, "level");
             }
         }

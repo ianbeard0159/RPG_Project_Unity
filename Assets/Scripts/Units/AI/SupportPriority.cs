@@ -67,9 +67,6 @@ public class SupportPriority
             potentialTargetEntries.Add(new ActionTargetEntry(unit, _action, _compareStat, 3));
         }
         potentialTargetEntries.Sort();
-        foreach(ActionTargetEntry entry in targetRegister) {
-            Debug.Log(entry.target.name);
-        }
 
         // Select targets that haven't been targeted by the input action recently
         for (int i = 0; i < _action.numTargets; i++) {

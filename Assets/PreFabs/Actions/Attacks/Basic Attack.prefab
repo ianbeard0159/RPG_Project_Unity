@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2031458467104986603}
   - component: {fileID: 40375966997610461}
+  - component: {fileID: 6968251751679238819}
   m_Layer: 0
   m_Name: Basic Attack
   m_TagString: Untagged
@@ -52,3 +53,17 @@ MonoBehaviour:
   baseDamage: 60
   numHits: 1
   baseAggro: 6
+--- !u!114 &6968251751679238819
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3554357912876474735}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9711ee9fb67f62429b2ef062ef1adfc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fullHealth: 0
+  lowHealth: 0
