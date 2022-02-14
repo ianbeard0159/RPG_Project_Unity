@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &3148922040214358035
+--- !u!1 &5647095196585279554
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,22 +8,22 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 9219133970641104967}
-  - component: {fileID: 7093954226344322309}
+  - component: {fileID: 4881912361975641413}
+  - component: {fileID: 7512264392775751036}
   m_Layer: 0
-  m_Name: DefenseUp
+  m_Name: Desparation_EvasionUp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &9219133970641104967
+--- !u!4 &4881912361975641413
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3148922040214358035}
+  m_GameObject: {fileID: 5647095196585279554}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -38.587692, y: -6.2815027, z: -336.7022}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -31,20 +31,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7093954226344322309
+--- !u!114 &7512264392775751036
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3148922040214358035}
+  m_GameObject: {fileID: 5647095196585279554}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7e06174027da76042bf9f73903bbdbde, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: stat
-  attribute: strength
-  value: 10
-  duration: 3
-  currentDuration: 0
+  type: rate
+  attribute: evasion
+  value: 0.15
+  duration: -1
+  currentDuration: -1

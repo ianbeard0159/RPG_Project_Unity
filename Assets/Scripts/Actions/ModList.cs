@@ -7,6 +7,7 @@ public class ModList : MonoBehaviour
     public List<Modifier> modifiers;
 
     public void ApplyModifiers(Unit unit) {
+        List<Modifier> initialMods = new List<Modifier>(unit.modifierList);
         foreach (Modifier mod in modifiers) {
             // If the modifier is not already applied, apply it
             Modifier tempMod = Instantiate(mod, unit.gameObject.transform);
@@ -19,7 +20,7 @@ public class ModList : MonoBehaviour
                 unit.modifierList[modIndex].currentDuration = mod.duration;
                 Destroy(tempMod.gameObject);
             }
-            unit.unitController.UpdateModifiers();
         }
+        unit.unitController.UpdateModifiers(initialMods);
     }
 }

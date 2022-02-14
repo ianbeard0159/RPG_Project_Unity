@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -103,6 +104,7 @@ public class UnitController
                 {"shock", 0},
                 {"chill", 0}
         };
+        UpdateModifiers(unit.modifierList);
     }
     
     public void StartTurn() {
@@ -115,18 +117,11 @@ public class UnitController
         unit.ESS_current += Math.Round(unit.ESS_max / 10);
         unit.ESS_current = unit.ESS_current.EnforceRange(unit.ESS_max, 0);
         ESS_text.GetComponent<Text>().text = "ESS: " + unit.ESS_current;
-
-        // Check the duration of modifiers in the mod list
-        for (int i = unit.modifierList.Count - 1; i >= 0; i--) {
-            if (unit.modifierList[i].duration != -1) {
-                unit.modifierList[i].currentDuration -= 1;
-                // Remove modifiers that have expired
-                if (unit.modifierList[i].currentDuration == 0) {
-                    unit.modifierList[i].SelfDestruct();
-                    unit.modifierList.RemoveAt(i);
-                }
-            }
-        }
+        
+        List<Modifier> initialMods = new List<Modifier>(unit.modifierList);
+        ChangeModifierDuration();
+        ApplySpecialRules();
+        UpdateModifiers(initialMods);
 
     }
 
@@ -145,6 +140,11 @@ public class UnitController
         
         // Set on screen text
         HP_text.GetComponent<Text>().text = "HP: " + unit.HP_current;
+
+        // Check if any special rules triggered
+        List<Modifier> initialMods = new List<Modifier>(unit.modifierList);
+        ApplySpecialRules();
+        UpdateModifiers(initialMods);
     }
     public void ChangeTN(double change)
     {
@@ -162,6 +162,9 @@ public class UnitController
         
         // Set on screen rext
         TN_text.GetComponent<Text>().text = "TN: " + unit.TN_current;
+        List<Modifier> initialMods = new List<Modifier>(unit.modifierList);
+        ApplySpecialRules();
+        UpdateModifiers(initialMods);
     }
     public double SpendResources(double AP_cost, double ESS_cost) {
         // Ranges enforced before function is called
@@ -270,34 +273,66 @@ public class UnitController
             _dictionary[key] = 0;
         }
     }
-
-    public void UpdateModifiers() {
-        // Reset all modifiers to zero
-        ResetModifers(unit.statBonuses);
-        ResetModifers(unit.damageBonuses);
-        ResetModifers(unit.rateBonuses);
-        ResetModifers(unit.damageResistances);
-        ResetModifers(unit.ailmentResistances);
-
-        // Re-apply modifiers that are still assigned to the unit
-        foreach (Modifier mod in unit.modifierList) {
-            switch (mod.type) {
-                case "stat":
-                    unit.statBonuses[mod.attribute] += mod.value;
-                    break;
-                case "damage":
-                    unit.damageBonuses[mod.attribute] += mod.value;
-                    break;
-                case "rate":
-                    unit.rateBonuses[mod.attribute] += mod.value;
-                    break;
-                case "resistance":
-                    unit.damageResistances[mod.attribute] += mod.value;
-                    break;
-                case "ailment":
-                    unit.ailmentResistances[mod.attribute] += mod.value;
-                    break;
+    public void ChangeModifierDuration() {
+        // Check the duration of modifiers in the mod list
+        for (int i = unit.modifierList.Count - 1; i >= 0; i--) {
+            if (unit.modifierList[i].duration != -1) {
+                unit.modifierList[i].currentDuration -= 1;
+                // Remove modifiers that have expired
+                if (unit.modifierList[i].currentDuration == 0) {
+                    unit.modifierList[i].SelfDestruct();
+                    unit.modifierList.RemoveAt(i);
+                }
             }
+        }
+    }
+    public void ApplySpecialRules() {
+        foreach (GameObject specialRule in unit.specialRules) {
+            Condition ruleConditions = specialRule.GetComponent<Condition>();
+            ModList ruleModifiers = specialRule.GetComponent<ModList>();
+            foreach (Modifier mod in ruleModifiers.modifiers) {
+                if (ruleConditions.CheckConditions(unit) && !(unit.modifierList.Contains(mod))) {
+                    unit.modifierList.Add(mod);
+                }
+                else if (!ruleConditions.CheckConditions(unit) && unit.modifierList.Contains(mod)) {
+                    unit.modifierList.Remove(mod);
+                }
+
+            }
+        }
+
+    }
+
+    public void UpdateModifiers(List<Modifier> initialMods) {
+        if (!initialMods.SequenceEqual(unit.modifierList)) {
+            // Reset all modifiers to zero
+            ResetModifers(unit.statBonuses);
+            ResetModifers(unit.damageBonuses);
+            ResetModifers(unit.rateBonuses);
+            ResetModifers(unit.damageResistances);
+            ResetModifers(unit.ailmentResistances);
+
+            // Re-apply modifiers that are still assigned to the unit
+            foreach (Modifier mod in unit.modifierList) {
+                switch (mod.type) {
+                    case "stat":
+                        unit.statBonuses[mod.attribute] += mod.value;
+                        break;
+                    case "damage":
+                        unit.damageBonuses[mod.attribute] += mod.value;
+                        break;
+                    case "rate":
+                        unit.rateBonuses[mod.attribute] += mod.value;
+                        break;
+                    case "resistance":
+                        unit.damageResistances[mod.attribute] += mod.value;
+                        break;
+                    case "ailment":
+                        unit.ailmentResistances[mod.attribute] += mod.value;
+                        break;
+                }
+            }
+
         }
     }
 }

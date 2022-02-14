@@ -70,6 +70,8 @@ MonoBehaviour:
   - {fileID: 1509104776949861926, guid: 704a3b7a4130fe5448d3ce3051623e28, type: 3}
   assignedSupports:
   - {fileID: 1496043816049622165, guid: 9e1bb6fc29e757d44a743983b07c467a, type: 3}
+  specialRules:
+  - {fileID: 6565131715726088868, guid: 6293f769b2b8d264691ceeb643545601, type: 3}
   modifierList: []
 --- !u!212 &9021955665098135016
 SpriteRenderer:

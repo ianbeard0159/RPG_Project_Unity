@@ -14,7 +14,6 @@ public class AI_AttackFirst : EnemyAI
             }
         }
 
-        enemySupportPriority.CheckDuration();
         foreach (SupportAction support in owner.supportList) {
             Condition supportCondition = support.GetComponent<Condition>();
             if (owner.AP_current > support.AP_cost && supportCondition.CheckConditions(owner)) {

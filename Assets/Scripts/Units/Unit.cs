@@ -71,6 +71,7 @@ public abstract class Unit : MonoBehaviour, IComparable
 
     [SerializeField] private List<Action> assignedAttacks;
     [SerializeField] private List<Action> assignedSupports;
+    [SerializeField] public List<GameObject> specialRules;
     public List<Action> attackList { get; protected set; }
     public List<Action> supportList { get; protected set; }
     public List<Modifier> modifierList;

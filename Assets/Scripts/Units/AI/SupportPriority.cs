@@ -24,7 +24,6 @@ public class ActionTargetEntry : IComparable {
 public class SupportPriority
 {
     EnemyUnit owner;
-    List<ActionTargetEntry> targetRegister;
     bool isInit = false;
 
     public SupportPriority(EnemyUnit _owner) {
@@ -32,15 +31,13 @@ public class SupportPriority
     }
 
     private void Init() {
-        targetRegister = new List<ActionTargetEntry>();
         isInit = true;
     }
 
-    public void CheckDuration() {
-        if (!isInit) Init();
-        for (int i = targetRegister.Count - 1; i >= 0; i--) {
-            if (targetRegister[i].duration != -1) targetRegister[i].duration -= 1;
-            if (targetRegister[i].duration == 0) targetRegister.RemoveAt(i);
+    public static void CheckDuration() {
+        for (int i = GameDriver.Instance.targetRegister.Count - 1; i >= 0; i--) {
+            if (GameDriver.Instance.targetRegister[i].duration != -1) GameDriver.Instance.targetRegister[i].duration -= 1;
+            if (GameDriver.Instance.targetRegister[i].duration == 0) GameDriver.Instance.targetRegister.RemoveAt(i);
         }
     }
 
@@ -74,9 +71,9 @@ public class SupportPriority
                 break;
             }
             foreach (ActionTargetEntry _entry in potentialTargetEntries) {
-                if(!targetRegister.Any(entry => entry.target == _entry.target)) {
+                if(!GameDriver.Instance.targetRegister.Any(entry => entry.target == _entry.target)) {
                     selectedTargets.Add(_entry.target);
-                    targetRegister.Add(_entry);
+                    GameDriver.Instance.targetRegister.Add(_entry);
                     break;
                 }
             }

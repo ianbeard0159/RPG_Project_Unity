@@ -12,6 +12,7 @@ public class GameDriver : MonoBehaviour
     private List<Unit> turnOrder = new List<Unit>();
     public List<Unit> enemyList = new List<Unit>();
     public List<Unit> characterList = new List<Unit>();
+    public List<ActionTargetEntry> targetRegister = new List<ActionTargetEntry>();
 
     // Menus
     private MenuManager menuManager;
@@ -72,6 +73,7 @@ public class GameDriver : MonoBehaviour
         if (!gameOverFlag) {
             // Loop back to the start of the list if necessary
             if (index >= turnOrder.Count) {
+                SupportPriority.CheckDuration();
                 index = 0;
             }
             // Take the current unit's turn unless they have 0 health
