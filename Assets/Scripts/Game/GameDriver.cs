@@ -40,10 +40,11 @@ public class GameDriver : MonoBehaviour
         // Set a flag for ending the battle
         gameOverFlag = false;
 
-        StartGame();
+        InitializeLists();
+        NextTurn(0);
     }
 
-    public void StartGame()
+    public void InitializeLists()
     {
         // Add all characters to the turn order list
         GameObject[] playerUnits = GameObject.FindGameObjectsWithTag("CharacterUnit");
@@ -65,8 +66,6 @@ public class GameDriver : MonoBehaviour
         // Sort based on agility
         turnOrder.Sort();
         turnOrder.Reverse();
-
-        NextTurn(0);
     }
 
     public void NextTurn(int index) {
