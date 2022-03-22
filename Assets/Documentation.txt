@@ -1,0 +1,85 @@
+
+//
+// --=|| Game Driver ||=--
+//
+
+As the name suggests, this script is what makes the game go. The NextTurn() function
+    in particular is what moves the game forward.
+
+A static instance of Game Driver (GameDriver.Instance) is accesible by all other scripts in 
+    the game. This is mainly used in two ways. First, it allows other scripts to call
+    NextTurn(), which moves the game forward. It also allows for other scripts to access
+    several lists present within GameDriver. At the moment, this includes a list of player
+    characters, a list of enemies, and a register of recently used support actions that
+    the enemy AI uses for selecting their actions and targets.
+
+As with all Monobehavior scripts in Unity, the Start() function is called when the game is 
+    started. This is used in GameDriver to find the other GameObjects used for the game, initialize
+    them, and then start the game by calling NextTurn(0).
+
+Game Driver also acts as a middle man for units interacting with eachother. For example, when
+    an attack is being performed, GameDriver will recieve data from the attacker (If the attack
+    hit/crit, how much damage was dealt, ext...) and send it to the target's TakeDamage() function.
+    In turn, the TakeDamage() function will return data that is then processed before being sent 
+    to the Game Log script so that results of the attack can be seen by the player.
+
+I like the idea of having a middle man script to handle unit interactions. I feel like having
+    a centralized location for these things helps make the code easier to follow. However,
+    I wonder if it could be organized a little better.
+
+//
+// --=|| Menu Manager ||=--
+//
+
+This script handles the battle menu used by the player during the game, effectively controlling
+    all user input in doing so.
+
+At the moment, there are three layers to the menu system. The Action Menu, the Action Sub Menu,
+    and the Target Menu. The Action Menu presents the player with different types of actions that 
+    can be performed, such as attacking or using a support ability. The action sub menu is then 
+    populated with options from the current unit's corresponding action list. Selecting attack, for
+    example, filles the action sub menu with all of the attacks from the unit's attack list (assuming 
+    that the conditions for using that attack are met). After selecting from the action sub menu, the
+    target menu will be populated with all eligible targets for the action. Finally, selecting a 
+    target from this menu will call GameDriver.Instance.PerformAction(target(s), current_unit, action).
+
+The only menu that is not dynnamically generated is the Actions Menu. But since there are a small number of
+    action types, and the number of things that change for each option, I think hard coding these in is 
+    still the best way to do it.
+
+Also, some unique actions may need more that three menus. This might require some refactoring
+    in the future, and I should probably reuse the same menu box GameObject rather than having
+    a separate menu box for each layer of the menu system.
+
+//
+// --=|| Monobehaviors and Controllers ||=--
+//
+
+Monobehaviors allow for objects, such as Characters and Actions, to be created within the Unity Engine editor.
+    However, they can be very difficult to create in testing environments. Therefore, it's common practice
+    to separate any functions that dont rely on the monobehavior class into their own controller class.
+
+Currently, Units and Actions follow this model closely, but the Enemy AI, Game Driver, and Menu Manager
+    do not. These scripts should probably be refactored to meet this standard. However, Menu Manager
+    in particular heavily relies on the Instansiate() function, which needs to be in a monobehavior class.
+
+//
+// --=|| Units ||=--
+//
+
+All units have a number of serialized fields. The values for these fields are set by the Unity
+    Engine inspector. These include all of the unit's base stats, and lists of game objects attached
+    to the unit such as attacks and special rules.
+
+Units also have a number of dictionaries for modifiers assigned to the unit. Currently, reflection is being used
+    to dynamically access these dictionaries, but it is tempting to instead put these dictionaries into a 
+    new dictionary.
+
+Actions are assigned to units through the Unity Engine inspector as prefabricated objects. However, these 
+    prefabs are static, which means that unique instances of these objects need to be instansiated so 
+    that the unit's own stats are used for the actions instead of the stats of the last unit the original
+    prefab was assigned to. This is why there are two lists for each action type. One is for the inspector
+    so that attacks can be assigned to the unit, and the other is for unique instances of those assigned
+    actions.
+
+ 
