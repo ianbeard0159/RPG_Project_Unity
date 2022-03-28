@@ -41,6 +41,7 @@ public class UnitController
         unit.AssignAttacks();
         unit.AssignSupports();
         unit.modifierList = new List<Modifier>();
+        unit.ailmentList = new List<StatusAilment>();
 
         // Initialize on screen text
         HP_text = unit.gameObject.transform.Find("HP_text");
@@ -108,24 +109,21 @@ public class UnitController
     }
     
     public void StartTurn() {
-        // Generate AP
-        unit.AP_current += Math.Round(unit.AP_max / 2);
-        unit.AP_current = unit.AP_current.EnforceRange(unit.AP_max, 0);
-        AP_text.GetComponent<Text>().text = "AP: " + unit.AP_current;
-
-        // Generate ESS
-        unit.ESS_current += Math.Round(unit.ESS_max / 10);
-        unit.ESS_current = unit.ESS_current.EnforceRange(unit.ESS_max, 0);
-        ESS_text.GetComponent<Text>().text = "ESS: " + unit.ESS_current;
+        // Generate Resources
+        ChangeAP(Math.Round(unit.AP_max / 2));
+        ChangeESS(Math.Round(unit.ESS_max / 10));
         
         List<Modifier> initialMods = new List<Modifier>(unit.modifierList);
         ChangeModifierDuration();
         ApplySpecialRules();
+        foreach(StatusAilment ailment in unit.ailmentList) {
+            ailment.RefreshAilment(unit);
+        }
         UpdateModifiers(initialMods);
 
     }
 
-    private void ChangeHealth(double value)
+    public void ChangeHealth(double value)
     {
         // Set new value
         unit.HP_current += value;
@@ -166,10 +164,9 @@ public class UnitController
         ApplySpecialRules();
         UpdateModifiers(initialMods);
     }
-    public double SpendResources(double AP_cost, double ESS_cost) {
-        // Ranges enforced before function is called
-        unit.AP_current -= AP_cost;
-        unit.ESS_current -= ESS_cost;
+    public double ChangeESS(double _change) {
+        unit.ESS_current += _change;
+        if (unit.ESS_current > unit.ESS_max) unit.ESS_current = unit.ESS_max;
         double burnDamage = 0;
 
         // Apply essence burn if the essence cost of the ability is greater than the unit's remaining AP
@@ -179,12 +176,19 @@ public class UnitController
             unit.ESS_current = 0;
             ChangeHealth(burnDamage);
         }
-
-        // Set on screen text
-        AP_text.GetComponent<Text>().text = "AP: " + unit.AP_current;
+        // Set onscreen text
         ESS_text.GetComponent<Text>().text = "ESS: " + unit.ESS_current;
 
         return burnDamage;
+    }
+    public void ChangeAP(double _change) {
+        unit.AP_current = (unit.AP_current + _change).EnforceRange(unit.AP_max, 0);
+        // Set onscreen text
+        AP_text.GetComponent<Text>().text = "AP: " + unit.AP_current;
+    }
+    public double SpendResources(double _AP_cost, double _ESS_cost) {
+        ChangeAP(-_AP_cost);
+        return ChangeESS(-_ESS_cost);
     }
 
     // Recieve damage from attacks

@@ -76,6 +76,8 @@ public abstract class Unit : MonoBehaviour, IComparable
     public List<Action> supportList { get; protected set; }
     public List<Modifier> modifierList;
 
+    public List<StatusAilment> ailmentList;
+
     private double _evasion;
     public double evasion { 
         get { 
