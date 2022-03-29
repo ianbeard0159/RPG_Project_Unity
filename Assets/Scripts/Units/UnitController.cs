@@ -116,8 +116,8 @@ public class UnitController
         List<Modifier> initialMods = new List<Modifier>(unit.modifierList);
         ChangeModifierDuration();
         ApplySpecialRules();
-        foreach(StatusAilment ailment in unit.ailmentList) {
-            ailment.RefreshAilment(unit);
+        for (int i = unit.ailmentList.Count; i > 0; i--) {
+            unit.ailmentList[i-1].RefreshAilment(unit);
         }
         UpdateModifiers(initialMods);
 
@@ -261,6 +261,11 @@ public class UnitController
         // Set new values for health and tension
         ChangeHealth(-takeData.damage);
         ChangeTN(takeData.TN_change);
+
+        // Apply Status Conditions if the Attack Hit
+        if (_damageData.ailment != null && (takeData.result == "taken" || takeData.result == "partially blocked")) {
+            _damageData.ailment.AddAilment(unit, _damageData.ailmentBuildup);
+        }
       
         // If an enemy target is incapacitated by the attack, destroy it
         if (unit.HP_status == "incapacitated" && unit.gameObject.tag == "EnemyUnit") {

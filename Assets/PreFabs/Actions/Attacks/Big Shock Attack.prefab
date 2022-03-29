@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &5571666325207746647
+--- !u!1 &8195377945017876382
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,58 +8,64 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 7260671912526917261}
-  - component: {fileID: 1842294534364809035}
-  - component: {fileID: 4683515333159176245}
+  - component: {fileID: 6690512686809418522}
+  - component: {fileID: 4640740455068164396}
+  - component: {fileID: 8033427909198168404}
   m_Layer: 0
-  m_Name: ShockMinor
+  m_Name: Big Shock Attack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &7260671912526917261
+--- !u!4 &6690512686809418522
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5571666325207746647}
+  m_GameObject: {fileID: 8195377945017876382}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -49.346027, y: 14.991389, z: -20.15234}
+  m_LocalPosition: {x: -1.3096776, y: -0.15416718, z: -22.140366}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1842294534364809035
+--- !u!114 &4640740455068164396
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5571666325207746647}
+  m_GameObject: {fileID: 8195377945017876382}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1a9dfcd3419dfe84199a715a09d10281, type: 3}
+  m_Script: {fileID: 11500000, guid: ecf59eaadbb6daf40bc078b27f762568, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _HP_loss: 25
-  _AP_loss: 1
-  _ESS_loss: 0
-  _TN_loss: 0
-  applyOnHit: 0
---- !u!114 &4683515333159176245
+  AP_cost: 2
+  ESS_cost: 50
+  numTargets: 1
+  ailment: {fileID: 8063495698129214479, guid: 6ad0445bda23eae409ada8ba04dd2704, type: 3}
+  ailmentBuildup: 51
+  attackType: fire
+  baseAccuracy: 80
+  critChance: 20
+  baseDamage: 60
+  numHits: 1
+  baseAggro: 6
+--- !u!114 &8033427909198168404
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5571666325207746647}
+  m_GameObject: {fileID: 8195377945017876382}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 10569ed702d5aae42be5952989fb5a32, type: 3}
+  m_Script: {fileID: 11500000, guid: a9711ee9fb67f62429b2ef062ef1adfc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  modifiers:
-  - {fileID: 3402185832344706505, guid: fc06f020ecba23b4bbc6a23577d3ab93, type: 3}
+  fullHealth: 0
+  lowHealth: 0

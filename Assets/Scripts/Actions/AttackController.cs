@@ -103,6 +103,8 @@ public class AttackController
         damageData.crit = crit;
         damageData.aggro = attack.baseAggro;
         damageData.type = attack.attackType;
+        damageData.ailment = (attack.ailment) ? attack.ailment : null;
+        damageData.ailmentBuildup =  attack.ailmentBuildup;
 
         return damageData;
 

@@ -11,6 +11,7 @@ public class ModList : MonoBehaviour
         foreach (Modifier mod in modifiers) {
             // If the modifier is not already applied, apply it
             Modifier tempMod = Instantiate(mod, unit.gameObject.transform);
+            tempMod.name = tempMod.name.Replace("(Clone)", "");
             if (!unit.modifierList.Contains(tempMod)){
                 unit.modifierList.Add(tempMod);
             }
