@@ -35,12 +35,19 @@ public class Ailment : MonoBehaviour
         _unit.unitController.ChangeESS(-ESS_loss);
         _unit.unitController.ChangeAP(-AP_loss);
 
-        modList.ApplyModifiers(_unit);
+        gameObject.GetComponent<ModList>().ApplyModifiers(_unit);
 
     }
     public void RemoveAilment(Unit _unit) {
-        foreach (Modifier mod in modList.modifiers) {
-            if (_unit.modifierList.Contains(mod)) _unit.modifierList.Remove(mod);
+        foreach (Modifier mod in gameObject.GetComponent<ModList>().modifiers) {
+            Debug.Log(mod.name);
+            Debug.Log(_unit.modifierList.Contains(mod));
+            if (_unit.modifierList.Contains(mod)) {
+                int index = _unit.modifierList.IndexOf(mod);
+                Transform modObject = _unit.gameObject.transform.Find(mod.name);
+                Destroy(modObject.gameObject);
+                _unit.modifierList.RemoveAt(index);
+            }
         }
     }
 

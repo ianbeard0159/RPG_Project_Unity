@@ -26,6 +26,18 @@ public class StatusAilment : MonoBehaviour, IEquatable<StatusAilment>
             return false;
         }
     }
+    public void AddAilment(Unit _unit, double _buildup) {
+        if (!_unit.ailmentList.Contains(this)) {
+            StatusAilment ailmentInstance = Instantiate(this, _unit.gameObject.transform);
+            _unit.ailmentList.Add(ailmentInstance);
+            int index = _unit.ailmentList.IndexOf(ailmentInstance);
+            _unit.ailmentList[index].ChangeBuildup(_unit, _buildup);
+        }
+        else {
+            int index = _unit.ailmentList.IndexOf(this);
+            _unit.ailmentList[index].ChangeBuildup(_unit, _buildup);
+        }
+    }
     
     public void CheckAilment(Unit _unit) {
         // Apply a major version of the ailment at 100% buildup
@@ -60,19 +72,23 @@ public class StatusAilment : MonoBehaviour, IEquatable<StatusAilment>
             minorApplied = false;
         }
         else {
-            _unit.ailmentList.Remove(this);
+            int index = _unit.ailmentList.IndexOf(this);
+            Destroy(_unit.ailmentList[index].gameObject);
+            _unit.ailmentList.RemoveAt(index);
         }
     }
 
     public void ChangeBuildup(Unit _unit, double _change) {
         buildup = (buildup + _change).EnforceRange(100, 0);
+        // Dont check automatically if the buildup went down
         if (_change > 0) CheckAilment(_unit);
     }
 
     public void RefreshAilment(Unit _unit) {
         majorApplied = false;
         minorApplied = false;
-        CheckAilment(_unit);
+        // Apply on hit effects shouldn't also be applied every turn
+        if (!minor.applyOnHit || buildup >= 100) CheckAilment(_unit);
         ChangeBuildup(_unit, -10);
     }
 
