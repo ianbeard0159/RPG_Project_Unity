@@ -18,7 +18,9 @@ public class DamageDealt {
     public string type;
     public StatusAilment ailment;
     public double ailmentBuildup;
-    public double ignoreDefense;
+    public bool evadeable;
+    public bool blockable;
+    public bool counterable;
 }
 
 static class SplitCamelCaseExtension {
