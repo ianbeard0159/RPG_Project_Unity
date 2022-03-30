@@ -60,6 +60,27 @@ public class AttackController
 
     }
 
+    private double DidIgnoreDefense()
+    {
+        // Roll two numbers for ignore chance
+        int rollA = UnityEngine.Random.Range(1, 101);
+        int rollB = UnityEngine.Random.Range(1, 101);
+        double ignoreChance = attack.ignoreDefenseChance;
+        if (ignoreChance >= rollA && ignoreChance >= rollB)
+        {
+            return 1.0;
+        }
+        else if (ignoreChance >= rollA || ignoreChance >= rollB)
+        {
+            return 0.5;
+        }
+        else
+        {
+            return 0;
+        }
+
+    }
+
     private double CalculateDamage(double _hit, double _crit, double _myAttStat, double _myLevel, double _targetDef)
     {
         // Calculate the total damage dealt by the attack
@@ -97,6 +118,7 @@ public class AttackController
 
         double hit = DidHit(myAimStat, attack.owner.TN_current, _target.agility, _target.TN_current, typeRateBonus);
         double crit = DidCrit(attack.owner.rateBonuses["critical"], attack.owner.damageBonuses["critical"]);
+        double ignoreDefense = DidIgnoreDefense();
 
         DamageDealt damageData = new DamageDealt();
         damageData.damage = CalculateDamage(hit, crit, myAttackStat, attack.owner.level, _target.endurance);
@@ -105,6 +127,7 @@ public class AttackController
         damageData.type = attack.attackType;
         damageData.ailment = (attack.ailment) ? attack.ailment : null;
         damageData.ailmentBuildup =  attack.ailmentBuildup;
+        damageData.ignoreDefense = attack.ignoreDefenseChance;
 
         return damageData;
 

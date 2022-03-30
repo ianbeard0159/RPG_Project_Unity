@@ -191,7 +191,7 @@ public class UnitController
         return ChangeESS(-_ESS_cost);
     }
 
-    // Recieve damage from attacks
+    // Receive damage from attacks
     public DamageTaken TakeDamage(DamageDealt _damageData)
     {
         DamageTaken takeData = new DamageTaken();
@@ -218,6 +218,11 @@ public class UnitController
         {
             takeData.TN_change = -0.01;
             takeData.result = "miss";
+        }
+        // Check if the attack ignores defenses
+        else if(_damageData.ignoreDefense == 1) {
+            takeData.TN_change = -takeData.TN_change;
+            takeData.result = "taken"; // maybe make "unavoidably taken"?
         }
         // Check if the attack was evaded or blocked
         else

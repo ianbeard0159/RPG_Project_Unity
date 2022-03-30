@@ -12,6 +12,7 @@ public class AttackAction : Action
     public double baseDamage;
     public double numHits;
     public double baseAggro;
+    public double ignoreDefenseChance;
 
     // Start is called before the first frame update
     void Awake()
