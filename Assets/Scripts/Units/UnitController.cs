@@ -251,7 +251,7 @@ public class UnitController
                     return true;
                 }
                 // The attack is partially blocked if one number is below the block chance
-                else if (unit.block > rollC || unit.block > rollD)
+                if (unit.block > rollC || unit.block > rollD)
                 {
                     takeData.damage = Math.Round(takeData.damage / 2);
                     takeData.TN_change = -takeData.TN_change / 2;
