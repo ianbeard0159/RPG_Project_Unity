@@ -158,7 +158,7 @@ public class UnitController
         else if (unit.TN_current > 0.7) unit.TN_status = "low"; 
         else unit.TN_status = "very low"; 
         
-        // Set on screen rext
+        // Set on screen text
         TN_text.GetComponent<Text>().text = "TN: " + unit.TN_current;
         List<Modifier> initialMods = new List<Modifier>(unit.modifierList);
         ApplySpecialRules();
@@ -220,7 +220,7 @@ public class UnitController
             takeData.result = "miss";
         }
         // Check if the attack ignores defenses
-        else if(_damageData.ignoreDefense == 1) {
+        else if(_damageData.ignoreDefense == 1) { // change to (_damageData.ignoreDefense > 0) if only one roll is required to ignore defense
             takeData.TN_change = -takeData.TN_change;
             takeData.result = "taken"; // maybe make "unavoidably taken"?
         }
