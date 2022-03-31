@@ -15,6 +15,9 @@ public interface IAttack
     double NumTargets { get; }
     double NumHits { get; }
     double BaseAggro { get; }
+    bool IgnoreEvasion { get; }
+    bool IgnoreBlocking { get; }
+    bool IgnoreCountering { get; }
 
     DamageDealt DealDamage(IUnit target);
 }

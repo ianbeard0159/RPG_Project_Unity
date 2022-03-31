@@ -158,7 +158,7 @@ public class UnitController
         else if (unit.TN_current > 0.7) unit.TN_status = "low"; 
         else unit.TN_status = "very low"; 
         
-        // Set on screen rext
+        // Set on screen text
         TN_text.GetComponent<Text>().text = "TN: " + unit.TN_current;
         List<Modifier> initialMods = new List<Modifier>(unit.modifierList);
         ApplySpecialRules();
@@ -191,7 +191,7 @@ public class UnitController
         return ChangeESS(-_ESS_cost);
     }
 
-    // Recieve damage from attacks
+    // Receive damage from attacks
     public DamageTaken TakeDamage(DamageDealt _damageData)
     {
         DamageTaken takeData = new DamageTaken();
@@ -213,26 +213,34 @@ public class UnitController
         double HP_percent = takeData.damage / unit.HP_max;
         takeData.TN_change = Math.Ceiling((HP_percent / 10) * 100) / 100;
 
-        // Check if the attack missed
-        if (takeData.damage == 0)
-        {
-            takeData.TN_change = -0.01;
-            takeData.result = "miss";
-        }
-        // Check if the attack was evaded or blocked
-        else
-        {
-            int rollA = UnityEngine.Random.Range(1, 100);
-            int rollB = UnityEngine.Random.Range(1, 100);
-            // Attack evaded if either number is below the total evasion chance
-            if (unit.evasion > rollA || unit.evasion > rollB)
+        // Attempt to defend from the attack and apply takeData changes
+        // Returns true if attack was fully defended, false otherwise
+        Func<bool> AttemptDefenses = () => {
+            
+            // Check if the attack missed
+            if (takeData.damage == 0)
             {
-                takeData.damage = 0;
-                takeData.result = "evaded";
+                takeData.TN_change = -0.01;
+                takeData.result = "miss";
+                return true;
             }
-            // Check if the attack was blocked
-            else
+
+            // Check if the attack was evaded
+            if (!_damageData.ignoreEvasion) 
             {
+                int rollA = UnityEngine.Random.Range(1, 100);
+                int rollB = UnityEngine.Random.Range(1, 100);
+                // Attack evaded if either number is below the total evasion chance
+                if (unit.evasion > rollA || unit.evasion > rollB)
+                {
+                    takeData.damage = 0;
+                    takeData.result = "evaded";
+                    return true;
+                }
+            }
+
+            // Check if the attack was blocked
+            if (!_damageData.ignoreBlocking) {
                 int rollC = UnityEngine.Random.Range(1, 100);
                 int rollD = UnityEngine.Random.Range(1, 100);
                 // The attack is fully blocked of both numbers are below the block chance
@@ -240,30 +248,32 @@ public class UnitController
                 {
                     takeData.damage = 0;
                     takeData.result = "blocked";
+                    return true;
                 }
                 // The attack is partially blocked if one number is below the block chance
-                else if (unit.block > rollC || unit.block > rollD)
+                if (unit.block > rollC || unit.block > rollD)
                 {
                     takeData.damage = Math.Round(takeData.damage / 2);
                     takeData.TN_change = -takeData.TN_change / 2;
                     takeData.result = "partially blocked";
-                }
-                // If all of the above fail, the attack hits
-                else
-                {
-                    takeData.TN_change = -takeData.TN_change;
-                    takeData.result = "taken";
+                    return false;
                 }
             }
 
-        }
+            // If all of the above fail, the attack hits
+            takeData.TN_change = -takeData.TN_change;
+            takeData.result = "taken";
+            return false;
+        };
+
+        bool attackHit = !AttemptDefenses();
 
         // Set new values for health and tension
         ChangeHealth(-takeData.damage);
         ChangeTN(takeData.TN_change);
 
         // Apply Status Conditions if the Attack Hit
-        if (_damageData.ailment != null && (takeData.result == "taken" || takeData.result == "partially blocked")) {
+        if (_damageData.ailment != null && attackHit) {
             _damageData.ailment.AddAilment(unit, _damageData.ailmentBuildup);
         }
       

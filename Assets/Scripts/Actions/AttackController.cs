@@ -105,6 +105,9 @@ public class AttackController
         damageData.type = attack.attackType;
         damageData.ailment = (attack.ailment) ? attack.ailment : null;
         damageData.ailmentBuildup =  attack.ailmentBuildup;
+        damageData.ignoreEvasion = attack.ignoreEvasion;
+        damageData.ignoreBlocking = attack.ignoreBlocking;
+        damageData.ignoreCountering = attack.ignoreCountering;
 
         return damageData;
 
