@@ -226,7 +226,7 @@ public class UnitController
             }
 
             // Check if the attack was evaded
-            if (_damageData.evadeable) 
+            if (!_damageData.ignoreEvasion) 
             {
                 int rollA = UnityEngine.Random.Range(1, 100);
                 int rollB = UnityEngine.Random.Range(1, 100);
@@ -240,7 +240,7 @@ public class UnitController
             }
 
             // Check if the attack was blocked
-            if (_damageData.blockable) {
+            if (!_damageData.ignoreBlocking) {
                 int rollC = UnityEngine.Random.Range(1, 100);
                 int rollD = UnityEngine.Random.Range(1, 100);
                 // The attack is fully blocked of both numbers are below the block chance

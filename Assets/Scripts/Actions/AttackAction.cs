@@ -12,9 +12,9 @@ public class AttackAction : Action
     public double baseDamage;
     public double numHits;
     public double baseAggro;
-    public bool evadeable;
-    public bool blockable;
-    public bool counterable;
+    public bool ignoreEvasion;
+    public bool ignoreBlocking;
+    public bool ignoreCountering;
 
     // Start is called before the first frame update
     void Awake()
