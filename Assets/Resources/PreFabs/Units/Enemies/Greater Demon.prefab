@@ -88,6 +88,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8111967572533800829}
+  - component: {fileID: 1889623650955251405}
   - component: {fileID: 8111967572533800831}
   - component: {fileID: 8007709455678097056}
   - component: {fileID: 8111967572533800828}
@@ -116,6 +117,28 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1889623650955251405
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8111967572533800826}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcf77d3916d73b9498a0ec9c513a32eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _level: 20
+  _strength: 40
+  _willpower: 20
+  _dexterity: 30
+  _focus: 20
+  _endurance: 40
+  _agility: 30
+  _HP_ratio: 800
+  _AP_ratio: 4
+  _ESS_ratio: 15
 --- !u!114 &8111967572533800831
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -128,20 +151,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1fa60b893a6460a46a9fb3a94825462d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _strength: 40
-  _willpower: 20
-  _dexterity: 30
-  _focus: 20
-  _endurance: 40
-  _agility: 30
-  HP_ratio: 800
-  AP_ratio: 4
-  ESS_ratio: 15
-  level: 20
   assignedAttacks:
   - {fileID: 40375966997610461, guid: 28134cc321549b84a9a7544863b37d8f, type: 3}
   assignedSupports: []
+  specialRules: []
+  attackList:
+  - {fileID: 4834534998802876121, guid: 98df64249aed72b47b349e0c0e504951, type: 3}
+  - {fileID: 40375966997610461, guid: 28134cc321549b84a9a7544863b37d8f, type: 3}
+  supportList: []
   modifierList: []
+  ailmentList: []
   AI_instance: {fileID: 0}
 --- !u!114 &8007709455678097056
 MonoBehaviour:

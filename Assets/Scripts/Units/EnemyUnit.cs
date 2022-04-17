@@ -6,14 +6,18 @@ public class EnemyUnit : Unit
 {
     [SerializeField] public EnemyAI AI_instance;
     public AttackPriority enemyAggro { get; set; }
-    public EnemyController enemyController;
 
     void Awake()
     {
-        unitController = new UnitController(this);
-        enemyController = new EnemyController(this);
         AI_instance = gameObject.GetComponent<EnemyAI>();
-        unitController.Init();
+        Init();
+    }
+    public int TakeEnemyTurn()
+    {
+        StartTurn();
+
+        return (int)(AI_instance.Act(this));
+
     }
 }
  
