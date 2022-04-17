@@ -83,7 +83,7 @@ public class GameDriver : MonoBehaviour
                     // Start the character's turn and populate the action menu
                     string logString = "Player Turn: "  + currentUnit.name;
                     gameLog.DisplayText(logString, "characterStart");
-                    currentUnit.unitController.StartTurn();
+                    currentUnit.StartTurn();
                     menuManager.PopulateActionMenu((CharacterUnit)currentUnit, index);
                 }
                 else {
@@ -100,7 +100,7 @@ public class GameDriver : MonoBehaviour
                     // Take enemy turn, then wait before starting the next turn
                     string logString = "Enemy Turn: "  + currentUnit.name;
                     gameLog.WaitThenDisplay(0.2f, logString, "characterStart");
-                    int timeInterval = ((EnemyUnit)currentUnit).enemyController.TakeEnemyTurn();
+                    int timeInterval = ((EnemyUnit)currentUnit).TakeEnemyTurn();
                     timer.WaitThenNextTurn(timeInterval, index + 1);
                 }
                 else 
@@ -179,7 +179,7 @@ public class GameDriver : MonoBehaviour
 
         // Spend AP and ESS, and make the unit take damage
         //    if they spent more ESS than they had
-        double essBurn = _owner.unitController.SpendResources(_action.AP_cost, _action.ESS_cost);
+        double essBurn = _owner.SpendResources(_action.AP_cost, _action.ESS_cost);
         if (essBurn != 0) {
             logString = _owner.gameObject.name + " didn't have enough Essence, and took " + -essBurn + " of essence burn";
             gameLog.WaitThenDisplay(1f, logString, "characterEvent");
@@ -197,8 +197,8 @@ public class GameDriver : MonoBehaviour
         // Seal damage to the target
         for (float i = 0; i < _attack.numHits; i++)
         {
-            DamageDealt damageData = _attack.controller.DealDamage(_target);
-            DamageTaken takenData = _target.unitController.TakeDamage(damageData);
+            DamageDealt damageData = _attack.DealDamage(_target.unitStats, _target.TN_current, _attacker.unitStats, _attacker.TN_current);
+            DamageTaken takenData = _target.TakeDamage(damageData);
 
             EnemyUnit enemy;
             CharacterUnit character;
@@ -228,7 +228,7 @@ public class GameDriver : MonoBehaviour
                 case "partially blocked":
                     if (damageData.crit != 1) {
                         logString = "Critical Hit! ";
-                        _attacker.unitController.ChangeTN(0.02);
+                        _attacker.ChangeTN(0.02);
                         aggroChange = Math.Round((aggroChange/2) * 1.5);
                     }
                     else logString = "";
@@ -239,7 +239,7 @@ public class GameDriver : MonoBehaviour
                 case "taken":
                     if (damageData.crit != 1) {
                         logString = "Critical Hit! ";
-                        _attacker.unitController.ChangeTN(0.03);
+                        _attacker.ChangeTN(0.03);
                         aggroChange = Math.Round(aggroChange * 1.5);
                     }
                     else logString = "";
@@ -265,7 +265,7 @@ public class GameDriver : MonoBehaviour
         // Heal if heal ratio isn't zero
 
         // If there are modifiers, apply them to the target
-        _support.modifiers.ApplyModifiers(target);
+        _support.gameObject.GetComponent<ModList>().ApplyModifiers(target);
 
         return timeInterval;
     }

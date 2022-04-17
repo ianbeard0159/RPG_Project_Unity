@@ -9,5 +9,6 @@ public class SupportAction : Action
 
     private void Awake() {
         modifiers = gameObject.GetComponent<ModList>();
+        Debug.Log(modifiers);
     }
 }

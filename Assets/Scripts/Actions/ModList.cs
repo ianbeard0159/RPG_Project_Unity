@@ -22,6 +22,6 @@ public class ModList : MonoBehaviour
                 Destroy(tempMod.gameObject);
             }
         }
-        unit.unitController.UpdateModifiers(initialMods);
+        unit.UpdateModifiers(initialMods);
     }
 }

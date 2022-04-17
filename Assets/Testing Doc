@@ -1,0 +1,68 @@
+Things that are going to be tested:
+- Data sent from one class to another (Public methods)
+- State changes (Example: Unit's health is reduced)
+- Internal data needed for later tests
+
+-- Attack
+GIVEN: A target (Unit object)
+THEN: DealDamage should
+- Return valid damageDrealt object
+    damage = Double >= 0 (No decimal places)
+    crit = Double >= 1
+    aggro = Double >= 0
+    type = One of the following strings ["physical", "fire", "earth", "air", "electric", "water"] // Replace with enumeration?
+    ailment = null OR StatusAilment object
+    ailmentBuildup = Double >= 0 (No decimal places)
+    ignoreEvasion = Boolean
+    ignoreBlock = Boolean
+    ignoreCounter = Boolean
+    attackHit = Boolean
+
+-- Unit
+GIVEN: An amount of ESS and AP (double, double)
+AND: AP amount >= AP_current
+THEN: SpendResources Should
+- Reduce Unit's AP by given amount
+- Reduce Unit's ESS by given amount
+    IF ESS reduced below 0
+    - Set ESS = 0
+    - Reduce Unit HP
+- Return health lost = Double >= 0
+
+GIVEN: A damageDealt object
+THEN: TakeDamage Should
+- Reduce potential damage based on unit resistances
+    IF relevant resistances != 0
+    - potential damage = damageDealt.damage + (damageDealt.damage * resistances)
+- Calculate TN_change
+    TN_change = Precentage of HP potentially lost divided by 10 (Double represented as 0.XX)
+- Determine result of attack
+    IF damageDealt.attackHit == false
+    - result = "miss"
+    ELSE
+    - Set result to one of the following ["evaded", "blocked", "partially blocked", "taken"]
+- Change Unit HP and TN based on result
+    miss: HP -= 0, TN -= 0.01
+    evaded OR blocked: HP -= 0, TN += TN_change 
+    partially blocked: HP -= 1/2 potential damage, TN -= 1/2 TN_change
+    taken: HP -= potenial damage, TN -= TN_change
+- Apply any ailments and modifiers attached to the attack
+    IF the attack applies modifiers AND damageDealt.attackHit == true
+    - Apply modifiers to the unit
+        IF modifier already applied to the unit's modifier list
+        - Modifier's duration should be reset
+        ELSE
+        - Modifer should be applied to unit's modifier list
+    IF the attack applies conditions AND damageDealt.attackHit == true
+    - Apply ailment to the unit
+        IF ailment is already applie to the unit's ailment list
+        - Ailment's buildup should be increased by damageDealt.ailmentBuildup
+        ELSE
+        - Ailment should be added to the unit's ailment list with an initial 
+            buildup of damageDealt.buildup
+- Return takeDamage object
+    result = One of the following strings ["miss", "evaded", "blocked",
+        "partially blocked", "taken"] // Replace with enumeration?
+    damage = Double >= 0 (No decimal places)
+    TN_change = Double
+    crit = Double >= 1

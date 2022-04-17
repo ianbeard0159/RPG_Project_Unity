@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: stat
-  attribute: strength
+  attribute: endurance
   value: 10
   duration: 3
   currentDuration: 0
