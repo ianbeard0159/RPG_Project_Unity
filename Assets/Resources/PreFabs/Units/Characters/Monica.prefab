@@ -219,9 +219,9 @@ MonoBehaviour:
   _focus: 35
   _endurance: 40
   _agility: 35
-  _HP_ratio: 0
-  _AP_ratio: 0
-  _ESS_ratio: 0
+  _HP_ratio: 850
+  _AP_ratio: 4
+  _ESS_ratio: 55
 --- !u!114 &7536094754273785406
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -234,13 +234,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b703ff0110446c247993217fbe20cbef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  assignedAttacks:
-  - {fileID: 40375966997610461, guid: 28134cc321549b84a9a7544863b37d8f, type: 3}
-  - {fileID: -5280444883164879834, guid: cbac6432c8afac64ca504115810635c7, type: 3}
-  - {fileID: 6498303650697095326, guid: 7a439e0138104d44baa9f91df0b2bd8b, type: 3}
-  - {fileID: 5409366701535099155, guid: 8d0a1945cf7697d468b08ba79baf7658, type: 3}
-  assignedSupports:
-  - {fileID: 1496043816049622165, guid: 9e1bb6fc29e757d44a743983b07c467a, type: 3}
   specialRules:
   - {fileID: 3966076971128848856, guid: f37765fe762fa9c4b814d3ac34cbf89b, type: 3}
   attackList:

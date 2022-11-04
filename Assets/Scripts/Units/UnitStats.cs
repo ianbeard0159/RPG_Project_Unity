@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -139,5 +140,13 @@ public class UnitStats : MonoBehaviour
         get { return _ailmentResistances; }
         set { _ailmentResistances = value; }
     }
+
+/*
+    void Awake() {
+        foreach (AilmentType type in Enum.GetValues(typeof(AilmentType))) {
+            ailmentResistances.Add(type.ToString(), 0);
+        }
+    }
+    */
 
 }
