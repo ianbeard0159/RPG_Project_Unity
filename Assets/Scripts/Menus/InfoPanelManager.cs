@@ -64,11 +64,12 @@ public class InfoPanelManager : MonoBehaviour
     private void PopulateTable(Unit _unit, GameObject _table, string _attribute) {
         GameObject subHeader = Instantiate(subHeaderPrefab, _table.transform);
         subHeader.GetComponent<Text>().text = _attribute.SplitCamelCase();
+        Debug.Log(_attribute);
 
         // Get the correct dictionary of bonuses/resistances
-        PropertyInfo attributeList = typeof(Unit).GetProperty(_attribute);
-        object dictionaryObj = attributeList.GetValue(_unit, null);
-        Dictionary<string, double> dictionary = (Dictionary<string, double>)(attributeList.GetValue(_unit, null));
+        PropertyInfo attributeList = typeof(UnitStats).GetProperty(_attribute);
+        object dictionaryObj = attributeList.GetValue(_unit.unitStats, null);
+        Dictionary<string, double> dictionary = (Dictionary<string, double>)(attributeList.GetValue(_unit.unitStats, null));
         
         List<string> keys = new List<string>(dictionary.Keys);
         foreach (string key in keys) {
@@ -92,7 +93,7 @@ public class InfoPanelManager : MonoBehaviour
         if (!isInit) {
             Init();
         }
-        List<string> keys = new List<string>(_unit.statBonuses.Keys);
+        List<string> keys = new List<string>(_unit.unitStats.statBonuses.Keys);
         foreach (string key in keys) {
             GameObject entry = Instantiate(infoEntryPrefab, unitStats.transform);
             entry.gameObject.name = key;
@@ -103,8 +104,9 @@ public class InfoPanelManager : MonoBehaviour
             }
             title.GetComponent<Text>().text = str;
             GameObject value = entry.transform.Find("Value").gameObject;
-            PropertyInfo prop = typeof(Unit).GetProperty(key);
-            value.GetComponent<Text>().text = (prop.GetValue(_unit, null)).ToString() + " (+" + _unit.statBonuses[key].ToString() + ")";
+            PropertyInfo prop = typeof(UnitStats).GetProperty(key);
+            Debug.Log(key + ": " + _unit.unitStats.statBonuses[key]);
+            value.GetComponent<Text>().text = (prop.GetValue(_unit.unitStats, null)).ToString() + " (+" + _unit.unitStats.statBonuses[key].ToString() + ")";
         }
     }
 }

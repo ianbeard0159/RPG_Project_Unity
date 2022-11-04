@@ -30,10 +30,10 @@ public class Ailment : MonoBehaviour
 
     public void ApplyAilment(Unit _unit) {
         Debug.Log(_unit.name);
-        _unit.unitController.ChangeHealth(-HP_loss);
-        _unit.unitController.ChangeTN(-TN_loss);
-        _unit.unitController.ChangeESS(-ESS_loss);
-        _unit.unitController.ChangeAP(-AP_loss);
+        _unit.ChangeHealth(-HP_loss);
+        _unit.ChangeTN(-TN_loss);
+        _unit.ChangeESS(-ESS_loss);
+        _unit.ChangeAP(-AP_loss);
 
         gameObject.GetComponent<ModList>().ApplyModifiers(_unit);
 
