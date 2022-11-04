@@ -23,6 +23,15 @@ public class DamageDealt {
     public bool ignoreCounter;
 }
 
+public class ConditionItem {
+    public bool activeCondition;
+    public bool unitCondition;
+    public ConditionItem(bool in_activeCondition, bool in_unitCondition) {
+        activeCondition = in_activeCondition;
+        unitCondition = in_unitCondition;
+    }
+}
+
 static class SplitCamelCaseExtension {
 	public static string SplitCamelCase(this string str) {
         // Capitalize First Letter
