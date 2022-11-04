@@ -70,7 +70,6 @@ public class AttackAction : Action
         damage = damage + (damage * _damageBonus);
         return damage;
     }
-
     public DamageDealt DealDamage(UnitStats _targetStats, double _TN_target, UnitStats _ownerStats, double _TN_owner)
     {
         // Identify the correct attack stat
@@ -93,7 +92,6 @@ public class AttackAction : Action
             typeRateBonus = _ownerStats.rateBonuses["magical"] + _ownerStats.rateBonuses["accuracy"];
             typeDamageBonus = _ownerStats.damageBonuses["damage"] + _ownerStats.damageBonuses["magical"] + _ownerStats.damageBonuses[attackType];
         }
-
         double hit = DidHit(myAimStat, _TN_owner, _targetStats.agility, _TN_target, typeRateBonus);
         double crit = DidCrit(_ownerStats.rateBonuses["critical"], _ownerStats.damageBonuses["critical"]);
         double damage = CalculateDamage(hit, crit, myAttackStat, _ownerStats.level, _targetStats.endurance, typeDamageBonus);
